@@ -9,6 +9,7 @@ import { RenderSystem } from '@eva/plugin-renderer-render';
 import { TransitionSystem } from '@eva/plugin-transition';
 import { GraphicsSystem } from '@eva/plugin-renderer-graphics';
 import { TextSystem } from '@eva/plugin-renderer-text';
+import { SpriteSystem } from '@eva/plugin-renderer-sprite';
 import BattleScene from './Scenes/Battle';
 
 resource.addResource(resources);
@@ -31,6 +32,7 @@ const game = new Game({
     new EventSystem(),
     new GraphicsSystem(),
     new TextSystem(),
+    new SpriteSystem(),
   ],
 });
 
