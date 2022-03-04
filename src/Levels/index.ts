@@ -1,4 +1,5 @@
 import level1 from './level1';
+import level2 from './level2';
 import { TILE_TYPE_ENUM } from '../Enums';
 
 export interface ITile {
@@ -12,6 +13,7 @@ export interface ILevel {
 
 const levels: Record<string, ILevel> = {
   level1,
+  level2,
 };
 
 export default levels;
