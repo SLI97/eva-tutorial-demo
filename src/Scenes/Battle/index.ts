@@ -3,7 +3,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../index';
 import BackgroundColor from './GameObjects/BackgroundColor';
 import Footer from './GameObjects/Footer';
 import Controller from './GameObjects/Controller';
-import TileMap from './GameObjects/TileMap';
+import { BattleManager } from './BattleManager';
 
 const BattleScene = () => {
   const scene = new Scene('BattleScene', {
@@ -14,8 +14,9 @@ const BattleScene = () => {
   });
 
   scene.addChild(BackgroundColor());
-  scene.addChild(TileMap());
   scene.addChild(Controller());
+
+  scene.addComponent(new BattleManager());
 
   scene.addChild(Footer());
 
