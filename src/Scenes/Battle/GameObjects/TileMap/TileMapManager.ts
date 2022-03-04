@@ -1,12 +1,9 @@
 import { Component } from '@eva/eva.js';
 import Tile from '../Tile';
-import DataManagerInstance from '../../../../Runtime/DataManager';
+import { randomByRange } from '../../../../Utils';
+import DataManager from '../../../../Runtime/DataManager';
 
-const randomByRange = (start: number, end: number) => {
-  return Math.floor(Math.random() * (start + (end - start)));
-};
-
-export class TileMapManager extends Component {
+export default class TileMapManager extends Component {
   static componentName = 'TileMapManager'; // 设置组件的名字
 
   init() {
@@ -14,7 +11,7 @@ export class TileMapManager extends Component {
   }
 
   initTile() {
-    const { mapInfo } = DataManagerInstance;
+    const { mapInfo } = DataManager.Instance;
     for (let i = 0; i < mapInfo.length; i++) {
       const column = mapInfo[i];
       for (let j = 0; j < column.length; j++) {
