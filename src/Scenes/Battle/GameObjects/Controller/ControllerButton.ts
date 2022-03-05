@@ -3,7 +3,7 @@ import { Sprite } from '@eva/plugin-renderer-sprite';
 import { Event } from '@eva/plugin-renderer-event';
 import { Transition } from '@eva/plugin-transition';
 import EventManager from '../../../../Runtime/EventManager';
-import { EVENT_ENUM } from '../../../../Enums';
+import { CONTROLLER_ENUM, EVENT_ENUM } from '../../../../Enums';
 
 const CTRL_WIDTH = 70;
 const CTRL_HEIGHT = 60;
@@ -19,7 +19,7 @@ const getPosition = (index: number) => {
   };
 };
 
-const ControllerButton = (index: number) => {
+const ControllerButton = (type: CONTROLLER_ENUM, index: number) => {
   const button = new GameObject('button', {
     size: {
       width: CTRL_WIDTH,
@@ -123,7 +123,7 @@ const ControllerButton = (index: number) => {
   const endHandler = () => {
     animation.play('big');
 
-    EventManager.Instance.emit(EVENT_ENUM.NEXT_LEVEL);
+    EventManager.Instance.emit(EVENT_ENUM.PLAYER_CTRL, type);
   };
 
   event.on('touchend', endHandler);

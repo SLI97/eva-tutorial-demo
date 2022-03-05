@@ -1,5 +1,6 @@
 import { GameObject } from '@eva/eva.js';
 import { SpriteAnimation } from '@eva/plugin-renderer-sprite-animation';
+import PlayerManager from './Scripts/PlayerManager';
 
 export const ENTITY_WIDTH = 128;
 export const ENTITY_HEIGHT = 128;
@@ -24,6 +25,8 @@ const Player = () => {
   );
 
   spriteAnimation.play();
+
+  player.addComponent(new PlayerManager());
 
   return player;
 };

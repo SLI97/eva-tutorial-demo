@@ -12,5 +12,15 @@ export enum TILE_TYPE_ENUM {
 }
 
 export enum EVENT_ENUM {
+  PLAYER_CTRL = 'PLAYER_CTRL',
   NEXT_LEVEL = 'NEXT_LEVEL',
+}
+
+export enum CONTROLLER_ENUM {
+  TOP = 'TOP',
+  BOTTOM = 'BOTTOM',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
+  TURNLEFT = 'TURNLEFT',
+  TURNRIGHT = 'TURNRIGHT',
 }
