@@ -1,3 +1,5 @@
+export const ANIMATION_SPEED = 1000 / 8;
+
 /**
  * TODO State具有播放动画的能力
  */
@@ -8,6 +10,8 @@ export default class State {
 
   run() {
     this.spriteAnimation.resource = this.animationName;
-    this.spriteAnimation.play(this.times);
+    requestAnimationFrame(() => {
+      this.spriteAnimation.play(this.times);
+    });
   }
 }

@@ -1,8 +1,7 @@
 import { Component } from '@eva/eva.js';
 import { FSM_PARAMS_TYPE_ENUM, PARAMS_NAME_ENUM } from '../../../../../Enums';
-import State from '../../../../../Base/State';
+import State, { ANIMATION_SPEED } from '../../../../../Base/State';
 import { SpriteAnimation } from '@eva/plugin-renderer-sprite-animation';
-import { ANIMATION_SPEED } from '../index';
 
 type ParmasValueType = number | boolean;
 
@@ -19,13 +18,15 @@ export const getInitParamsTrigger = () => {
 };
 
 export default class PlayerStateMachine extends Component {
+  static componentName = 'PlayerStateMachine'; // 设置组件的名字
+
   private _currentState: State = null;
   params: Map<string, IParams> = new Map();
   stateMachines: Map<string, State> = new Map();
 
   getParams(parmaName: PARAMS_NAME_ENUM) {
     if (this.params.has(parmaName)) {
-      return this.params.get(parmaName);
+      return this.params.get(parmaName).value;
     }
   }
 
@@ -48,7 +49,7 @@ export default class PlayerStateMachine extends Component {
   init() {
     this.gameObject.addComponent(
       new SpriteAnimation({
-        resource: 'player_idle_top',
+        resource: '',
         speed: ANIMATION_SPEED,
         forwards: true,
         autoPlay: false,
@@ -74,13 +75,17 @@ export default class PlayerStateMachine extends Component {
   initAnimationEvent() {
     const spriteAnimation = this.gameObject.getComponent(SpriteAnimation);
     spriteAnimation.on('complete', () => {
-      this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
+      const list = ['player_turn'];
+      if (list.some(i => spriteAnimation.resource.startsWith(i))) {
+        this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
+      }
     });
   }
 
   run() {
     switch (this.currentState) {
       case this.stateMachines.get(PARAMS_NAME_ENUM.IDLE):
+      case this.stateMachines.get(PARAMS_NAME_ENUM.TURNLEFT):
         if (this.params.get(PARAMS_NAME_ENUM.TURNLEFT)) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.TURNLEFT);
         } else {
