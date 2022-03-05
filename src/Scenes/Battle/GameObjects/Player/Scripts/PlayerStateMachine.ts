@@ -17,6 +17,13 @@ export const getInitParamsTrigger = () => {
   };
 };
 
+export const getInitParamsNumber = () => {
+  return {
+    type: FSM_PARAMS_TYPE_ENUM.NUMBER,
+    value: 0,
+  };
+};
+
 export default class PlayerStateMachine extends Component {
   static componentName = 'PlayerStateMachine'; // 设置组件的名字
 
@@ -24,16 +31,25 @@ export default class PlayerStateMachine extends Component {
   params: Map<string, IParams> = new Map();
   stateMachines: Map<string, State> = new Map();
 
-  getParams(parmaName: PARAMS_NAME_ENUM) {
+  getParams(parmaName: string) {
     if (this.params.has(parmaName)) {
       return this.params.get(parmaName).value;
     }
   }
 
-  setParams(parmaName: PARAMS_NAME_ENUM, value: ParmasValueType) {
+  setParams(parmaName: string, value: ParmasValueType) {
     if (this.params.has(parmaName)) {
       this.params.get(parmaName).value = value;
       this.run();
+      this.resetTrigger();
+    }
+  }
+
+  resetTrigger() {
+    for (const [, value] of this.params) {
+      if (value.type === FSM_PARAMS_TYPE_ENUM.TRIGGER) {
+        value.value = false;
+      }
     }
   }
 
@@ -64,6 +80,7 @@ export default class PlayerStateMachine extends Component {
   initParams() {
     this.params.set(PARAMS_NAME_ENUM.IDLE, getInitParamsTrigger());
     this.params.set(PARAMS_NAME_ENUM.TURNLEFT, getInitParamsTrigger());
+    this.params.set(PARAMS_NAME_ENUM.DIRECTION, getInitParamsNumber());
   }
 
   initStateMachines() {
@@ -88,6 +105,8 @@ export default class PlayerStateMachine extends Component {
       case this.stateMachines.get(PARAMS_NAME_ENUM.TURNLEFT):
         if (this.params.get(PARAMS_NAME_ENUM.TURNLEFT)) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.TURNLEFT);
+        } else if (this.params.get(PARAMS_NAME_ENUM.IDLE)) {
+          this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
         } else {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
         }
