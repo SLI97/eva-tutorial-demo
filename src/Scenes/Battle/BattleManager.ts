@@ -7,6 +7,7 @@ import DataManager from '../../Runtime/DataManager';
 import EventManager from '../../Runtime/EventManager';
 import { EVENT_ENUM } from '../../Enums';
 import Player from './GameObjects/Player';
+import WoodenSkeleton from './GameObjects/WoodenSkeleton';
 
 export default class BattleManager extends Component {
   static componentName = 'BattleManager'; // 设置组件的名字
@@ -26,6 +27,7 @@ export default class BattleManager extends Component {
 
     this.generateTileMap();
     this.generatePlayer();
+    this.generateEnemies();
   }
 
   clearLevel() {
@@ -43,6 +45,10 @@ export default class BattleManager extends Component {
 
   generatePlayer() {
     this.gameObject.addChild(Player());
+  }
+
+  generateEnemies() {
+    this.gameObject.addChild(WoodenSkeleton());
   }
 
   adaptPos() {
