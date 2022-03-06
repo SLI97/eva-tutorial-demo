@@ -2,6 +2,7 @@ import { Component } from '@eva/eva.js';
 import Tile from '../Tile';
 import { randomByRange } from '../../../../Utils';
 import DataManager from '../../../../Runtime/DataManager';
+import TileManager from '../Tile/TileManager';
 
 export default class TileMapManager extends Component {
   static componentName = 'TileMapManager'; // 设置组件的名字
@@ -12,8 +13,10 @@ export default class TileMapManager extends Component {
 
   initTile() {
     const { mapInfo } = DataManager.Instance;
+    DataManager.Instance.tileInfo = [];
     for (let i = 0; i < mapInfo.length; i++) {
       const column = mapInfo[i];
+      DataManager.Instance.tileInfo[i] = [];
       for (let j = 0; j < column.length; j++) {
         const item = column[j];
 
@@ -28,9 +31,11 @@ export default class TileMapManager extends Component {
         }
 
         const imgSrc = `bg (${number}).png`;
-        const tile = Tile(imgSrc, i, j);
+        const type = item.type;
+        const tile = Tile(type, imgSrc, i, j);
 
         this.gameObject.addChild(tile);
+        DataManager.Instance.tileInfo[i][j] = tile.getComponent(TileManager);
       }
     }
   }
