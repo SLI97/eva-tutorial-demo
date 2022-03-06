@@ -2,6 +2,9 @@ import { Component } from '@eva/eva.js';
 import { FSM_PARAMS_TYPE_ENUM, PARAMS_NAME_ENUM } from '../../../../../Enums';
 import State, { ANIMATION_SPEED } from '../../../../../Base/State';
 import { SpriteAnimation } from '@eva/plugin-renderer-sprite-animation';
+import IdleSubStateMachine from './IdleSubStateMachine';
+import TurnLeftSubStateMachine from './TurnLeftSubStateMachine';
+import SubStateMachine from '../../../../../Base/SubStateMachine';
 
 type ParmasValueType = number | boolean;
 
@@ -27,19 +30,19 @@ export const getInitParamsNumber = () => {
 export default class PlayerStateMachine extends Component {
   static componentName = 'PlayerStateMachine'; // 设置组件的名字
 
-  private _currentState: State = null;
+  private _currentState: State | SubStateMachine = null;
   params: Map<string, IParams> = new Map();
-  stateMachines: Map<string, State> = new Map();
+  stateMachines: Map<string, State | SubStateMachine> = new Map();
 
-  getParams(parmaName: string) {
-    if (this.params.has(parmaName)) {
-      return this.params.get(parmaName).value;
+  getParams(paramName: string) {
+    if (this.params.has(paramName)) {
+      return this.params.get(paramName).value;
     }
   }
 
-  setParams(parmaName: string, value: ParmasValueType) {
-    if (this.params.has(parmaName)) {
-      this.params.get(parmaName).value = value;
+  setParams(paramName: string, value: ParmasValueType) {
+    if (this.params.has(paramName)) {
+      this.params.get(paramName).value = value;
       this.run();
       this.resetTrigger();
     }
@@ -85,8 +88,8 @@ export default class PlayerStateMachine extends Component {
 
   initStateMachines() {
     const spriteAnimation = this.gameObject.getComponent(SpriteAnimation);
-    this.stateMachines.set(PARAMS_NAME_ENUM.IDLE, new State(spriteAnimation, 'player_idle_top'));
-    this.stateMachines.set(PARAMS_NAME_ENUM.TURNLEFT, new State(spriteAnimation, 'player_turn_left_top', 1));
+    this.stateMachines.set(PARAMS_NAME_ENUM.IDLE, new IdleSubStateMachine(this, spriteAnimation));
+    this.stateMachines.set(PARAMS_NAME_ENUM.TURNLEFT, new TurnLeftSubStateMachine(this, spriteAnimation));
   }
 
   initAnimationEvent() {
@@ -103,12 +106,12 @@ export default class PlayerStateMachine extends Component {
     switch (this.currentState) {
       case this.stateMachines.get(PARAMS_NAME_ENUM.IDLE):
       case this.stateMachines.get(PARAMS_NAME_ENUM.TURNLEFT):
-        if (this.params.get(PARAMS_NAME_ENUM.TURNLEFT)) {
+        if (this.params.get(PARAMS_NAME_ENUM.TURNLEFT).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.TURNLEFT);
-        } else if (this.params.get(PARAMS_NAME_ENUM.IDLE)) {
+        } else if (this.params.get(PARAMS_NAME_ENUM.IDLE).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
         } else {
-          this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
+          this.currentState = this.currentState;
         }
         break;
       default:
