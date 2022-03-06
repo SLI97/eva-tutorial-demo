@@ -810,4 +810,64 @@ export default [
     },
     preload: true,
   },
+  {
+    name: 'woodenskeleton_death_top',
+    type: RESOURCE_TYPE.SPRITE_ANIMATION,
+    src: {
+      image: {
+        type: 'png',
+        url: './static/assets/woodenskeleton/death_top.png',
+      },
+      json: {
+        type: 'json',
+        url: './static/assets/woodenskeleton/death_top.json',
+      },
+    },
+    preload: true,
+  },
+  {
+    name: 'woodenskeleton_death_bottom',
+    type: RESOURCE_TYPE.SPRITE_ANIMATION,
+    src: {
+      image: {
+        type: 'png',
+        url: './static/assets/woodenskeleton/death_bottom.png',
+      },
+      json: {
+        type: 'json',
+        url: './static/assets/woodenskeleton/death_bottom.json',
+      },
+    },
+    preload: true,
+  },
+  {
+    name: 'woodenskeleton_death_left',
+    type: RESOURCE_TYPE.SPRITE_ANIMATION,
+    src: {
+      image: {
+        type: 'png',
+        url: './static/assets/woodenskeleton/death_left.png',
+      },
+      json: {
+        type: 'json',
+        url: './static/assets/woodenskeleton/death_left.json',
+      },
+    },
+    preload: true,
+  },
+  {
+    name: 'woodenskeleton_death_right',
+    type: RESOURCE_TYPE.SPRITE_ANIMATION,
+    src: {
+      image: {
+        type: 'png',
+        url: './static/assets/woodenskeleton/death_right.png',
+      },
+      json: {
+        type: 'json',
+        url: './static/assets/woodenskeleton/death_right.json',
+      },
+    },
+    preload: true,
+  },
 ];

@@ -5,6 +5,7 @@ import IdleSubStateMachine from './IdleSubStateMachine';
 import StateMachine, { getInitParamsNumber, getInitParamsTrigger } from '../../../../../Base/StateMachine';
 import AttackSubStateMachine from './AttackSubStateMachine';
 import WoodenSkeletonManager from './WoodenSkeletonManager';
+import DeathSubStateMachine from './DeathSubStateMachine';
 
 export default class WoodenSkeletonStateMachine extends StateMachine {
   static componentName = 'WoodenSkeletonStateMachine'; // 设置组件的名字
@@ -27,6 +28,7 @@ export default class WoodenSkeletonStateMachine extends StateMachine {
   initParams() {
     this.params.set(PARAMS_NAME_ENUM.IDLE, getInitParamsTrigger());
     this.params.set(PARAMS_NAME_ENUM.ATTACK, getInitParamsTrigger());
+    this.params.set(PARAMS_NAME_ENUM.DEATH, getInitParamsTrigger());
     this.params.set(PARAMS_NAME_ENUM.DIRECTION, getInitParamsNumber());
   }
 
@@ -34,6 +36,7 @@ export default class WoodenSkeletonStateMachine extends StateMachine {
     const spriteAnimation = this.gameObject.getComponent(SpriteAnimation);
     this.stateMachines.set(PARAMS_NAME_ENUM.IDLE, new IdleSubStateMachine(this, spriteAnimation));
     this.stateMachines.set(PARAMS_NAME_ENUM.ATTACK, new AttackSubStateMachine(this, spriteAnimation));
+    this.stateMachines.set(PARAMS_NAME_ENUM.DEATH, new DeathSubStateMachine(this, spriteAnimation));
   }
 
   initAnimationEvent() {
@@ -49,14 +52,36 @@ export default class WoodenSkeletonStateMachine extends StateMachine {
   run() {
     switch (this.currentState) {
       case this.stateMachines.get(PARAMS_NAME_ENUM.IDLE):
+      case this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK):
+      case this.stateMachines.get(PARAMS_NAME_ENUM.DEATH):
         if (this.params.get(PARAMS_NAME_ENUM.ATTACK).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK);
+        } else if (this.params.get(PARAMS_NAME_ENUM.DEATH).value) {
+          this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.DEATH);
         } else if (this.params.get(PARAMS_NAME_ENUM.IDLE).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
         } else {
           this.currentState = this.currentState;
         }
         break;
+      // case this.stateMachines.get(PARAMS_NAME_ENUM.IDLE):
+      //   if (this.params.get(PARAMS_NAME_ENUM.ATTACK).value) {
+      //     this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK);
+      //   } else if (this.params.get(PARAMS_NAME_ENUM.DEATH).value) {
+      //     this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.DEATH);
+      //   } else {
+      //     this.currentState = this.currentState;
+      //   }
+      //   break;
+      // case this.stateMachines.get(PARAMS_NAME_ENUM.IDLE):
+      //   if (this.params.get(PARAMS_NAME_ENUM.ATTACK).value) {
+      //     this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK);
+      //   } else if (this.params.get(PARAMS_NAME_ENUM.DEATH).value) {
+      //     this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.DEATH);
+      //   } else {
+      //     this.currentState = this.currentState;
+      //   }
+      //   break;
       default:
         this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE);
         break;
