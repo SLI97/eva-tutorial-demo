@@ -102,6 +102,7 @@ export default class PlayerManager extends EntityManager {
       if (direction === DIRECTION_ENUM.TOP) {
         //判断是否超出地图
         if (playerNextY < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
           return true;
         }
 
@@ -113,6 +114,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
           return true;
         }
 
@@ -120,6 +122,7 @@ export default class PlayerManager extends EntityManager {
       } else if (direction === DIRECTION_ENUM.BOTTOM) {
         //判断是否超出地图
         if (playerNextY < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
           return true;
         }
 
@@ -131,6 +134,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
           return true;
         }
 
@@ -138,6 +142,7 @@ export default class PlayerManager extends EntityManager {
       } else if (direction === DIRECTION_ENUM.LEFT) {
         //判断是否超出地图
         if (playerNextY < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
           return true;
         }
 
@@ -150,6 +155,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
           return true;
         }
 
@@ -157,6 +163,7 @@ export default class PlayerManager extends EntityManager {
       } else if (direction === DIRECTION_ENUM.RIGHT) {
         //判断是否超出地图
         if (playerNextY < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
           return true;
         }
 
@@ -169,6 +176,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
           return true;
         }
       }
@@ -180,6 +188,8 @@ export default class PlayerManager extends EntityManager {
       //玩家方向——向上
       if (direction === DIRECTION_ENUM.TOP) {
         if (playerNextY > column - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
+
           return true;
         }
 
@@ -191,12 +201,15 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
           return true;
         }
 
         //玩家方向——向下
       } else if (direction === DIRECTION_ENUM.BOTTOM) {
         if (playerNextY > column - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
+
           return true;
         }
 
@@ -208,12 +221,15 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
           return true;
         }
 
         //玩家方向——向左
       } else if (direction === DIRECTION_ENUM.LEFT) {
         if (playerNextY > column - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
+
           return true;
         }
 
@@ -226,12 +242,15 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
           return true;
         }
 
         //玩家方向——向右
       } else if (direction === DIRECTION_ENUM.RIGHT) {
         if (playerNextY > column - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
+
           return true;
         }
 
@@ -244,6 +263,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
           return true;
         }
       }
@@ -256,6 +276,8 @@ export default class PlayerManager extends EntityManager {
       if (direction === DIRECTION_ENUM.TOP) {
         //判断是否超出地图
         if (playerNextX < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
+
           return true;
         }
 
@@ -268,6 +290,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
           return true;
         }
 
@@ -275,6 +298,8 @@ export default class PlayerManager extends EntityManager {
       } else if (direction === DIRECTION_ENUM.BOTTOM) {
         //判断是否超出地图
         if (playerNextX < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
+
           return true;
         }
 
@@ -287,6 +312,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
           return true;
         }
 
@@ -294,6 +320,8 @@ export default class PlayerManager extends EntityManager {
       } else if (direction === DIRECTION_ENUM.LEFT) {
         //判断是否超出地图
         if (playerNextX < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
+
           return true;
         }
 
@@ -305,6 +333,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
           return true;
         }
 
@@ -312,6 +341,8 @@ export default class PlayerManager extends EntityManager {
       } else if (direction === DIRECTION_ENUM.RIGHT) {
         //判断是否超出地图
         if (playerNextX < 0) {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
+
           return true;
         }
 
@@ -323,6 +354,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
           return true;
         }
       }
@@ -334,6 +366,8 @@ export default class PlayerManager extends EntityManager {
       //玩家方向——向上
       if (direction === DIRECTION_ENUM.TOP) {
         if (playerNextX > row - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
+
           return true;
         }
 
@@ -346,12 +380,15 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
           return true;
         }
 
         //玩家方向——向下
       } else if (direction === DIRECTION_ENUM.BOTTOM) {
         if (playerNextX > row - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
+
           return true;
         }
 
@@ -364,12 +401,15 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
           return true;
         }
 
         //玩家方向——向左
       } else if (direction === DIRECTION_ENUM.LEFT) {
         if (playerNextX > row - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
+
           return true;
         }
 
@@ -381,12 +421,15 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKBACK;
           return true;
         }
 
         //玩家方向——向右
       } else if (direction === DIRECTION_ENUM.RIGHT) {
         if (playerNextX > row - 1) {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
+
           return true;
         }
 
@@ -398,6 +441,7 @@ export default class PlayerManager extends EntityManager {
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
         } else {
+          this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
           return true;
         }
       }
@@ -428,6 +472,7 @@ export default class PlayerManager extends EntityManager {
       ) {
         // empty
       } else {
+        this.state = ENTITY_STATE_ENUM.BLOCKTURNLEFT;
         return true;
       }
 
@@ -457,6 +502,7 @@ export default class PlayerManager extends EntityManager {
       ) {
         // empty
       } else {
+        this.state = ENTITY_STATE_ENUM.BLOCKTURNRIGHT;
         return true;
       }
     }
