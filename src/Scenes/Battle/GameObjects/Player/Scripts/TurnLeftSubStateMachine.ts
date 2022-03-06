@@ -1,10 +1,10 @@
-import SubStateMachine from '../../../../../Base/SubStateMachine';
 import PlayerStateMachine from './PlayerStateMachine';
 import { SpriteAnimation } from '@eva/plugin-renderer-sprite-animation';
-import { DIRECTION_ENUM, DIRECTION_ORDER_ENUM, PARAMS_NAME_ENUM } from '../../../../../Enums';
+import { DIRECTION_ENUM } from '../../../../../Enums';
 import State from '../../../../../Base/State';
+import DirectionSubStateMachine from '../../../../../Base/DirectionSubStateMachine';
 
-export default class TurnLeftSubStateMachine extends SubStateMachine {
+export default class TurnLeftSubStateMachine extends DirectionSubStateMachine {
   constructor(fsm: PlayerStateMachine, spriteAnimation: SpriteAnimation) {
     super(fsm);
 
@@ -12,10 +12,5 @@ export default class TurnLeftSubStateMachine extends SubStateMachine {
     this.stateMachines.set(DIRECTION_ENUM.BOTTOM, new State(spriteAnimation, 'player_turn_left_bottom', 1));
     this.stateMachines.set(DIRECTION_ENUM.LEFT, new State(spriteAnimation, 'player_turn_left_left', 1));
     this.stateMachines.set(DIRECTION_ENUM.RIGHT, new State(spriteAnimation, 'player_turn_left_right', 1));
-  }
-
-  run() {
-    const { value: newDirection } = this.fsm.params.get(PARAMS_NAME_ENUM.DIRECTION);
-    this.currentState = this.stateMachines.get(DIRECTION_ORDER_ENUM[newDirection as number]);
   }
 }
