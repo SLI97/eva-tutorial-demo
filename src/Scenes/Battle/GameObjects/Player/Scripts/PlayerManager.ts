@@ -9,6 +9,7 @@ export default class PlayerManager extends EntityManager {
 
   targetX: number;
   targetY: number;
+  isMoveing: boolean = false;
   readonly speed = 1 / 10;
 
   init() {
@@ -40,13 +41,18 @@ export default class PlayerManager extends EntityManager {
       this.y += this.speed;
     }
 
-    if (Math.abs(this.targetX - this.x) < 0.01 && Math.abs(this.targetY - this.y) < 0.01) {
+    if (Math.abs(this.targetX - this.x) < 0.01 && Math.abs(this.targetY - this.y) < 0.01 && this.isMoveing) {
       this.x = this.targetX;
       this.y = this.targetY;
+      this.isMoveing = false;
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END);
     }
   }
 
   inputHandler(inputDirection: CONTROLLER_ENUM) {
+    if (this.isMoveing) {
+      return;
+    }
     if (this.willBlock(inputDirection)) {
       return;
     }
@@ -57,12 +63,16 @@ export default class PlayerManager extends EntityManager {
   move(inputDirection: CONTROLLER_ENUM) {
     if (inputDirection === CONTROLLER_ENUM.TOP) {
       this.targetY -= 1;
+      this.isMoveing = true;
     } else if (inputDirection === CONTROLLER_ENUM.BOTTOM) {
       this.targetY += 1;
+      this.isMoveing = true;
     } else if (inputDirection === CONTROLLER_ENUM.LEFT) {
       this.targetX -= 1;
+      this.isMoveing = true;
     } else if (inputDirection === CONTROLLER_ENUM.RIGHT) {
       this.targetX += 1;
+      this.isMoveing = true;
     } else if (inputDirection === CONTROLLER_ENUM.TURNLEFT) {
       if (this.direction === DIRECTION_ENUM.TOP) {
         this.direction = DIRECTION_ENUM.LEFT;
@@ -74,6 +84,7 @@ export default class PlayerManager extends EntityManager {
         this.direction = DIRECTION_ENUM.TOP;
       }
       this.state = ENTITY_STATE_ENUM.TURNLEFT;
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END);
     } else if (inputDirection === CONTROLLER_ENUM.TURNRIGHT) {
       if (this.direction === DIRECTION_ENUM.TOP) {
         this.direction = DIRECTION_ENUM.RIGHT;
@@ -85,6 +96,7 @@ export default class PlayerManager extends EntityManager {
         this.direction = DIRECTION_ENUM.TOP;
       }
       this.state = ENTITY_STATE_ENUM.TURNRIGHT;
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END);
     }
   }
 

@@ -610,7 +610,7 @@ export default [
       },
       json: {
         type: 'json',
-        url: './static/assets/plawoodenskeletonyer/idle_left.json',
+        url: './static/assets/woodenskeleton/idle_left.json',
       },
     },
     preload: true,
