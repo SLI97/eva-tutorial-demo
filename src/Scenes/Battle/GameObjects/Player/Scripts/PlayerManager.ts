@@ -4,6 +4,7 @@ import PlayerStateMachine from './PlayerStateMachine';
 import EntityManager from '../../../../../Base/EntityManager';
 import DataManager from '../../../../../Runtime/DataManager';
 import EnemyManager from '../../../../../Base/EnemyManager';
+import BurstManager from '../../Burst/Scripts/BurstManager';
 
 export default class PlayerManager extends EntityManager {
   static componentName = 'PlayerManager'; // 设置组件的名字
@@ -74,13 +75,13 @@ export default class PlayerManager extends EntityManager {
       return;
     }
 
-    // const id = this.willAttack(inputDirection);
-    // if (id) {
-    //   this.state = ENTITY_STATE_ENUM.ATTACK;
-    //   EventManager.Instance.emit(EVENT_ENUM.ATTACK_ENEMY, id);
-    //   EventManager.Instance.emit(EVENT_ENUM.DOOR_OPEN);
-    //   return;
-    // }
+    const id = this.willAttack(inputDirection);
+    if (id) {
+      this.state = ENTITY_STATE_ENUM.ATTACK;
+      EventManager.Instance.emit(EVENT_ENUM.ATTACK_ENEMY, id);
+      EventManager.Instance.emit(EVENT_ENUM.DOOR_OPEN);
+      return;
+    }
 
     if (this.willBlock(inputDirection)) {
       return;
@@ -174,6 +175,9 @@ export default class PlayerManager extends EntityManager {
       (enemy: EnemyManager) => enemy.state !== ENTITY_STATE_ENUM.DEATH,
     );
     const { x: doorX, y: doorY, state: doorState } = DataManager.Instance.door;
+    const bursts: BurstManager[] = DataManager.Instance.bursts.filter(
+      (burst: BurstManager) => burst.state !== ENTITY_STATE_ENUM.DEATH,
+    );
 
     const { mapRowCount: row, mapColumnCount: column } = DataManager.Instance;
 
@@ -211,6 +215,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -251,6 +263,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKBACK;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -294,6 +314,14 @@ export default class PlayerManager extends EntityManager {
           }
         }
 
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
+        }
+
         //最后判断地图元素
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
@@ -333,6 +361,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -380,6 +416,14 @@ export default class PlayerManager extends EntityManager {
           }
         }
 
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
+        }
+
         //最后判断地图元素
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
@@ -418,6 +462,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -461,6 +513,14 @@ export default class PlayerManager extends EntityManager {
           }
         }
 
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
+        }
+
         //最后判断地图元素
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
@@ -500,6 +560,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === x && burst.y === playerNextY) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -549,6 +617,14 @@ export default class PlayerManager extends EntityManager {
           }
         }
 
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
+        }
+
         //最后判断地图元素
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
@@ -589,6 +665,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKRIGHT;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -632,6 +716,14 @@ export default class PlayerManager extends EntityManager {
           }
         }
 
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
+        }
+
         //最后判断地图元素
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
@@ -671,6 +763,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKBACK;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -719,6 +819,14 @@ export default class PlayerManager extends EntityManager {
           }
         }
 
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
+        }
+
         //最后判断地图元素
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
@@ -758,6 +866,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKLEFT;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素
@@ -800,6 +916,14 @@ export default class PlayerManager extends EntityManager {
           }
         }
 
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
+        }
+
         //最后判断地图元素
         if (nextPlayerTile && nextPlayerTile.moveable && (!nextWeaponTile || nextWeaponTile.turnable)) {
           // empty
@@ -838,6 +962,14 @@ export default class PlayerManager extends EntityManager {
             this.state = ENTITY_STATE_ENUM.BLOCKFRONT;
             return true;
           }
+        }
+
+        //判断地裂陷阱
+        if (
+          bursts.some(burst => burst.x === playerNextX && burst.y === y) &&
+          (!nextWeaponTile || nextWeaponTile.turnable)
+        ) {
+          return false;
         }
 
         //最后判断地图元素

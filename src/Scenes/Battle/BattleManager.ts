@@ -14,6 +14,8 @@ import DoorManager from './GameObjects/Door/Scripts/DoorManager';
 import Door from './GameObjects/Door';
 import IronSkeleton from './GameObjects/IronSkeleton';
 import IronSkeletonManager from './GameObjects/IronSkeleton/Scripts/IronSkeletonManager';
+import Burst from './GameObjects/Burst';
+import BurstManager from './GameObjects/Burst/Scripts/BurstManager';
 
 export default class BattleManager extends Component {
   static componentName = 'BattleManager'; // 设置组件的名字
@@ -32,6 +34,7 @@ export default class BattleManager extends Component {
     DataManager.Instance.mapColumnCount = level.mapInfo[0].length;
 
     this.generateTileMap();
+    this.generateBursts();
     this.generateDoor();
     this.generateEnemies();
     this.generatePlayer();
@@ -48,6 +51,12 @@ export default class BattleManager extends Component {
   generateTileMap() {
     this.gameObject.addChild(TileMap());
     this.adaptPos();
+  }
+
+  generateBursts() {
+    const burst = Burst();
+    this.gameObject.addChild(burst);
+    DataManager.Instance.bursts.push(burst.getComponent(BurstManager));
   }
 
   generateDoor() {

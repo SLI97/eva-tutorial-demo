@@ -10,8 +10,8 @@ export default class WoodenSkeletonManager extends EnemyManager {
   init() {
     this.fsm = this.gameObject.addComponent(new WoodenSkeletonStateMachine());
     super.init();
-    this.x = 2;
-    this.y = 4;
+    this.x = 6;
+    this.y = 7;
     this.state = ENTITY_STATE_ENUM.IDLE;
     this.direction = DIRECTION_ENUM.TOP;
     EventManager.Instance.on(EVENT_ENUM.PLAYER_MOVE_END, this.onAttack, this);
