@@ -8,8 +8,8 @@ export default class IronSkeletonManager extends EnemyManager {
   init() {
     this.fsm = this.gameObject.addComponent(new IronSkeletonStateMachine());
     super.init();
-    this.x = 2;
-    this.y = 2;
+    this.x = 1;
+    this.y = 5;
     this.state = ENTITY_STATE_ENUM.IDLE;
     this.direction = DIRECTION_ENUM.TOP;
   }

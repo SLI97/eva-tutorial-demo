@@ -9,6 +9,7 @@ export default class DoorManager extends EntityManager {
 
   init() {
     this.fsm = this.gameObject.addComponent(new DoorStateMachine());
+    super.init();
     this.x = 7;
     this.y = 8;
     this.state = ENTITY_STATE_ENUM.IDLE;
