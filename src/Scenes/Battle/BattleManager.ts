@@ -10,6 +10,8 @@ import Player from './GameObjects/Player';
 import WoodenSkeleton from './GameObjects/WoodenSkeleton';
 import PlayerManager from './GameObjects/Player/Scripts/PlayerManager';
 import WoodenSkeletonManager from './GameObjects/WoodenSkeleton/Scripts/WoodenSkeletonManager';
+import DoorManager from './GameObjects/Door/Scripts/DoorManager';
+import Door from './GameObjects/Door';
 
 export default class BattleManager extends Component {
   static componentName = 'BattleManager'; // 设置组件的名字
@@ -28,6 +30,7 @@ export default class BattleManager extends Component {
     DataManager.Instance.mapColumnCount = level.mapInfo[0].length;
 
     this.generateTileMap();
+    this.generateDoor();
     this.generateEnemies();
     this.generatePlayer();
   }
@@ -43,6 +46,12 @@ export default class BattleManager extends Component {
   generateTileMap() {
     this.gameObject.addChild(TileMap());
     this.adaptPos();
+  }
+
+  generateDoor() {
+    const door = Door();
+    this.gameObject.addChild(door);
+    DataManager.Instance.door = door.getComponent(DoorManager);
   }
 
   generatePlayer() {
