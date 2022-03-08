@@ -6,6 +6,7 @@ import SpikesOneSubStateMachine from './SpikesOneSubStateMachine';
 import SpikesTwoSubStateMachine from './SpikesTwoSubStateMachine';
 import SpikesThreeSubStateMachine from './SpikesThreeSubStateMachine';
 import SpikesFourSubStateMachine from './SpikesFourSubStateMachine';
+import SpikesManager from './SpikesManager';
 
 export default class SpikesStateMachine extends StateMachine {
   static componentName = 'SpikesStateMachine'; // 设置组件的名字
@@ -38,7 +39,24 @@ export default class SpikesStateMachine extends StateMachine {
     this.stateMachines.set(ENTITY_TYPE_ENUM.SPIKES_FOUR, new SpikesFourSubStateMachine(this, spriteAnimation));
   }
 
-  initAnimationEvent() {}
+  initAnimationEvent() {
+    const spriteAnimation = this.gameObject.getComponent(SpriteAnimation);
+    spriteAnimation.on('complete', () => {
+      const { value } = this.params.get(PARAMS_NAME_ENUM.SPIKES_TOTAL_COUNT);
+      if (
+        (value === SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM.SPIKES_ONE &&
+          spriteAnimation.resource.startsWith('spikes_one_two')) ||
+        (value === SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM.SPIKES_TWO &&
+          spriteAnimation.resource.startsWith('spikes_two_three')) ||
+        (value === SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM.SPIKES_THREE &&
+          spriteAnimation.resource.startsWith('spikes_three_four')) ||
+        (value === SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM.SPIKES_FOUR &&
+          spriteAnimation.resource.startsWith('spikes_four_five'))
+      ) {
+        this.gameObject.getComponent(SpikesManager).backZero();
+      }
+    });
+  }
 
   run() {
     const { value } = this.params.get(PARAMS_NAME_ENUM.SPIKES_TOTAL_COUNT);
