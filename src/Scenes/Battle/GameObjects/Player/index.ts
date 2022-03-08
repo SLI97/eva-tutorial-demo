@@ -2,6 +2,7 @@ import { GameObject } from '@eva/eva.js';
 import PlayerManager from './Scripts/PlayerManager';
 import { ENTITY_HEIGHT, ENTITY_WIDTH } from '../../../../Base/EntityManager';
 import { IEntity } from '../../../../Levels';
+import { Render } from '@eva/plugin-renderer-render';
 
 const Player = (params: IEntity) => {
   const player = new GameObject('player', {
@@ -11,6 +12,11 @@ const Player = (params: IEntity) => {
     },
   });
 
+  player.addComponent(
+    new Render({
+      zIndex: 2,
+    }),
+  );
   player.addComponent(new PlayerManager(params));
 
   return player;

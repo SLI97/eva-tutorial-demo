@@ -2,6 +2,7 @@ import { GameObject } from '@eva/eva.js';
 import { TILE_HEIGHT, TILE_WIDTH } from '../Tile';
 import BurstManager from './Scripts/BurstManager';
 import { IEntity } from '../../../../Levels';
+import { Render } from '@eva/plugin-renderer-render';
 
 const Burst = (params: IEntity) => {
   const burst = new GameObject('burst', {
@@ -11,6 +12,11 @@ const Burst = (params: IEntity) => {
     },
   });
 
+  burst.addComponent(
+    new Render({
+      zIndex: 0,
+    }),
+  );
   burst.addComponent(new BurstManager(params));
 
   return burst;

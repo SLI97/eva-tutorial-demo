@@ -111,7 +111,6 @@ export default class BattleManager extends Component {
   generateSmoke(x: number, y: number, direction: DIRECTION_ENUM) {
     const item = DataManager.Instance.smokes.find(smoke => smoke.state === ENTITY_STATE_ENUM.DEATH);
     if (item) {
-      console.log(item);
       item.x = x;
       item.y = y;
       item.direction = direction;
