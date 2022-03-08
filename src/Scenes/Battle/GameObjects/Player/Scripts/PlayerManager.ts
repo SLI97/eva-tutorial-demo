@@ -5,6 +5,7 @@ import EntityManager from '../../../../../Base/EntityManager';
 import DataManager from '../../../../../Runtime/DataManager';
 import EnemyManager from '../../../../../Base/EnemyManager';
 import BurstManager from '../../Burst/Scripts/BurstManager';
+import { IEntity } from '../../../../../Levels';
 
 export default class PlayerManager extends EntityManager {
   static componentName = 'PlayerManager'; // 设置组件的名字
@@ -14,17 +15,13 @@ export default class PlayerManager extends EntityManager {
   isMoveing: boolean = false;
   readonly speed = 1 / 10;
 
-  init() {
+  init(params: IEntity) {
     this.fsm = this.gameObject.addComponent(new PlayerStateMachine());
-    super.init();
-    this.x = 2;
-    this.y = 8;
+    super.init(params);
     this.targetX = this.x;
     this.targetY = this.y;
     EventManager.Instance.on(EVENT_ENUM.PLAYER_CTRL, this.inputHandler, this);
     EventManager.Instance.on(EVENT_ENUM.ATTACK_PLAYER, this.onDead, this);
-    this.state = ENTITY_STATE_ENUM.IDLE;
-    this.direction = DIRECTION_ENUM.TOP;
   }
 
   onDestroy() {

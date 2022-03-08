@@ -11,6 +11,7 @@ import {
 import { TILE_HEIGHT, TILE_WIDTH } from '../../Tile';
 import EventManager from '../../../../../Runtime/EventManager';
 import DataManager from '../../../../../Runtime/DataManager';
+import { ISpikes } from '../../../../../Levels';
 
 export default class SpikesManager extends Component {
   static componentName = 'SpikesManager'; // 设置组件的名字
@@ -41,13 +42,14 @@ export default class SpikesManager extends Component {
     this.fsm.setParams(PARAMS_NAME_ENUM.SPIKES_TOTAL_COUNT, newCount);
   }
 
-  init() {
+  init(params: ISpikes) {
     this.fsm = this.gameObject.addComponent(new SpikesStateMachine());
-    this.x = 2;
-    this.y = 4;
-    this.type = ENTITY_TYPE_ENUM.SPIKES_FOUR;
-    this.totalCount = SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM[this.type];
-    this.count = 0;
+    this.x = params.x;
+    this.y = params.y;
+    this.type = params.type;
+    this.totalCount =
+      SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM[this.type as 'SPIKES_ONE' | 'SPIKES_TWO' | 'SPIKES_THREE' | 'SPIKES_FOUR'];
+    this.count = params.count;
     EventManager.Instance.on(EVENT_ENUM.PLAYER_MOVE_END, this.onLoop, this);
   }
 

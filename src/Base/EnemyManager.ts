@@ -2,12 +2,13 @@ import EventManager from '../Runtime/EventManager';
 import { DIRECTION_ENUM, ENTITY_STATE_ENUM, EVENT_ENUM } from '../Enums';
 import EntityManager from './EntityManager';
 import DataManager from '../Runtime/DataManager';
+import { IEntity } from '../Levels';
 
 export default class EnemyManager extends EntityManager {
   static componentName = 'EnemyManager'; // 设置组件的名字
 
-  init() {
-    super.init();
+  init(params: IEntity) {
+    super.init(params);
     EventManager.Instance.on(EVENT_ENUM.PLAYER_MOVE_END, this.onChangeDirection, this);
     EventManager.Instance.on(EVENT_ENUM.ATTACK_ENEMY, this.onDead, this);
   }
