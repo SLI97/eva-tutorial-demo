@@ -38,7 +38,7 @@ export default class BattleManager extends Component {
     this.generateTileMap();
     this.generateBursts();
     this.generateDoor();
-    this.gererateSpikes();
+    this.generateSpikes();
     this.generateEnemies();
     this.generatePlayer();
   }
@@ -84,7 +84,7 @@ export default class BattleManager extends Component {
     DataManager.Instance.enemies.push(enemy2.getComponent(IronSkeletonManager));
   }
 
-  gererateSpikes() {
+  generateSpikes() {
     const spikes = Spikes();
     this.gameObject.addChild(spikes);
     DataManager.Instance.spikes.push(spikes.getComponent(SpikesManager));

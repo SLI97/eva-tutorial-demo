@@ -37,7 +37,7 @@ export default class SpikesManager extends Component {
     this.fsm = this.gameObject.addComponent(new SpikesStateMachine());
     this.x = 2;
     this.y = 4;
-    this.type = ENTITY_TYPE_ENUM.SPIKES_ONE;
+    this.type = ENTITY_TYPE_ENUM.SPIKES_FOUR;
     this.totalCount = SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM[this.type];
     this.count = 0;
   }
