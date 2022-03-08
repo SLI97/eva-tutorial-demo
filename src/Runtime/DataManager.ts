@@ -5,6 +5,7 @@ import PlayerManager from '../Scenes/Battle/GameObjects/Player/Scripts/PlayerMan
 import DoorManager from '../Scenes/Battle/GameObjects/Door/Scripts/DoorManager';
 import EnemyManager from '../Base/EnemyManager';
 import BurstManager from '../Scenes/Battle/GameObjects/Burst/Scripts/BurstManager';
+import SpikesManager from '../Scenes/Battle/GameObjects/Spikes/Scripts/SpikesManager';
 
 export default class DataManager extends Singleton {
   static get Instance() {
@@ -20,11 +21,13 @@ export default class DataManager extends Singleton {
   door: DoorManager;
   enemies: Array<EnemyManager>;
   bursts: Array<BurstManager>;
+  spikes: Array<SpikesManager>;
 
   reset() {
     this.player = null;
     this.door = null;
     this.bursts = [];
+    this.spikes = [];
     this.enemies = [];
     this.mapInfo = [];
     this.tileInfo = [];
