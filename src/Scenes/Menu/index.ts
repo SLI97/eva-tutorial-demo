@@ -33,9 +33,9 @@ const Menu = () => {
     });
   };
 
-  event.on('touchend', endHandler);
+  event.once('touchend', endHandler);
 
-  event.on('touchendoutside', endHandler);
+  event.once('touchendoutside', endHandler);
 
   return menu;
 };

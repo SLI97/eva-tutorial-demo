@@ -5,10 +5,10 @@ import { EVENT_ENUM } from '../../../../Enums';
 import { Event } from '@eva/plugin-renderer-event';
 import { MENU_BUTTON_HEIGHT, MENU_BUTTON_WIDTH } from './index';
 
-const UndoButton = () => {
-  const undo = new GameObject('undo', {
+const RestartButton = () => {
+  const restart = new GameObject('restart', {
     position: {
-      x: -90,
+      x: 0,
       y: 20,
     },
     size: {
@@ -25,23 +25,23 @@ const UndoButton = () => {
     },
   });
 
-  undo.addComponent(
+  restart.addComponent(
     new Sprite({
       resource: 'ctrl',
-      spriteName: 'ctrl (9).png',
+      spriteName: 'ctrl (8).png',
     }),
   );
 
-  const event = undo.addComponent(new Event());
+  const event = restart.addComponent(new Event());
   const endHandler = () => {
-    EventManager.Instance.emit(EVENT_ENUM.REVOKE_STEP);
+    EventManager.Instance.emit(EVENT_ENUM.RESTART_LEVEL);
   };
 
   event.on('touchend', endHandler);
 
   event.on('touchendoutside', endHandler);
 
-  return undo;
+  return restart;
 };
 
-export default UndoButton;
+export default RestartButton;

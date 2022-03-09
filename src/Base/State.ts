@@ -12,6 +12,8 @@ export default class State {
     if (this.animationName === this.spriteAnimation.resource) {
       return;
     }
+    // @ts-ignore
+    this.spriteAnimation.complete = false;
     this.spriteAnimation.resource = this.animationName;
     requestAnimationFrame(() => {
       this.spriteAnimation.play(this.times);

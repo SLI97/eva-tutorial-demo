@@ -1,14 +1,15 @@
 import { GameObject } from '@eva/eva.js';
 import { Sprite } from '@eva/plugin-renderer-sprite';
-import EventManager from '../../../../Runtime/EventManager';
-import { EVENT_ENUM } from '../../../../Enums';
 import { Event } from '@eva/plugin-renderer-event';
 import { MENU_BUTTON_HEIGHT, MENU_BUTTON_WIDTH } from './index';
+import FaderManager from '../../../../Runtime/FaderManager';
+import { game } from '../../../../index';
+import Menu from '../../../Menu';
 
-const UndoButton = () => {
-  const undo = new GameObject('undo', {
+const OutButton = () => {
+  const out = new GameObject('out', {
     position: {
-      x: -90,
+      x: 90,
       y: 20,
     },
     size: {
@@ -25,23 +26,27 @@ const UndoButton = () => {
     },
   });
 
-  undo.addComponent(
+  out.addComponent(
     new Sprite({
       resource: 'ctrl',
-      spriteName: 'ctrl (9).png',
+      spriteName: 'ctrl (10).png',
     }),
   );
 
-  const event = undo.addComponent(new Event());
-  const endHandler = () => {
-    EventManager.Instance.emit(EVENT_ENUM.REVOKE_STEP);
+  const event = out.addComponent(new Event());
+  const endHandler = async () => {
+    await FaderManager.Instance.fadeIn();
+    game.scene.destroy();
+    game.loadScene({
+      scene: Menu(),
+    });
   };
 
   event.on('touchend', endHandler);
 
   event.on('touchendoutside', endHandler);
 
-  return undo;
+  return out;
 };
 
-export default UndoButton;
+export default OutButton;
