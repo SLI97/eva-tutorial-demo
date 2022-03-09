@@ -1,4 +1,4 @@
-import { ENTITY_STATE_ENUM, PARAMS_NAME_ENUM } from '../../../../../Enums';
+import { ENTITY_STATE_ENUM, EVENT_ENUM, PARAMS_NAME_ENUM, SHAKE_TYPE_ENUM } from '../../../../../Enums';
 import { ANIMATION_SPEED } from '../../../../../Base/State';
 import { SpriteAnimation } from '@eva/plugin-renderer-sprite-animation';
 import IdleSubStateMachine from './IdleSubStateMachine';
@@ -15,6 +15,7 @@ import PlayerManager from './PlayerManager';
 import DeathSubStateMachine from './DeathSubStateMachine';
 import AttackSubStateMachine from './AttackSubStateMachine';
 import AirDeathSubStateMachine from './AirDeathSubStateMachine';
+import EventManager from '../../../../../Runtime/EventManager';
 
 export default class PlayerStateMachine extends StateMachine {
   static componentName = 'PlayerStateMachine'; // 设置组件的名字
@@ -72,6 +73,20 @@ export default class PlayerStateMachine extends StateMachine {
       const list = ['player_turn', 'player_block', 'player_attack'];
       if (list.some(i => spriteAnimation.resource.startsWith(i))) {
         this.gameObject.getComponent(PlayerManager).state = ENTITY_STATE_ENUM.IDLE;
+      }
+    });
+
+    spriteAnimation.on('frameChange', () => {
+      if (spriteAnimation.resource.startsWith('player_attack') && spriteAnimation.currentFrame === 4) {
+        if (spriteAnimation.resource.startsWith('player_attack_top')) {
+          EventManager.Instance.emit(EVENT_ENUM.SCREEN_SHAKE, SHAKE_TYPE_ENUM.TOP);
+        } else if (spriteAnimation.resource.startsWith('player_attack_bottom')) {
+          EventManager.Instance.emit(EVENT_ENUM.SCREEN_SHAKE, SHAKE_TYPE_ENUM.BOTTOM);
+        } else if (spriteAnimation.resource.startsWith('player_attack_left')) {
+          EventManager.Instance.emit(EVENT_ENUM.SCREEN_SHAKE, SHAKE_TYPE_ENUM.LEFT);
+        } else if (spriteAnimation.resource.startsWith('player_attack_right')) {
+          EventManager.Instance.emit(EVENT_ENUM.SCREEN_SHAKE, SHAKE_TYPE_ENUM.RIGHT);
+        }
       }
     });
   }
