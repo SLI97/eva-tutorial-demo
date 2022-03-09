@@ -10,16 +10,16 @@ import { TransitionSystem } from '@eva/plugin-transition';
 import { GraphicsSystem } from '@eva/plugin-renderer-graphics';
 import { TextSystem } from '@eva/plugin-renderer-text';
 import { SpriteSystem } from '@eva/plugin-renderer-sprite';
-import BattleScene from './Scenes/Battle';
 import FaderManager from './Runtime/FaderManager';
 import DataManager from './Runtime/DataManager';
+import Menu from './Scenes/Menu';
 
 resource.addResource(resources);
 
 export const SCREEN_WIDTH = window.innerWidth;
 export const SCREEN_HEIGHT = window.innerHeight;
 
-const game = new Game({
+export const game = new Game({
   systems: [
     new RendererSystem({
       canvas: document.querySelector('#canvas'),
@@ -40,7 +40,7 @@ const game = new Game({
 });
 
 game.loadScene({
-  scene: BattleScene(),
+  scene: Menu(),
 });
 
 game.ticker.add(() => {

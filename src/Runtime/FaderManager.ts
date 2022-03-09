@@ -86,4 +86,11 @@ export default class FaderManager extends Singleton {
       this.resolve = resolve;
     });
   }
+
+  mask() {
+    this.render.alpha = 1;
+    return new Promise(resolve => {
+      setTimeout(resolve, DEFAULT_DURATION);
+    });
+  }
 }
