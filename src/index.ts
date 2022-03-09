@@ -11,6 +11,8 @@ import { GraphicsSystem } from '@eva/plugin-renderer-graphics';
 import { TextSystem } from '@eva/plugin-renderer-text';
 import { SpriteSystem } from '@eva/plugin-renderer-sprite';
 import BattleScene from './Scenes/Battle';
+import FaderManager from './Runtime/FaderManager';
+import DataManager from './Runtime/DataManager';
 
 resource.addResource(resources);
 
@@ -39,4 +41,9 @@ const game = new Game({
 
 game.loadScene({
   scene: BattleScene(),
+});
+
+game.ticker.add(() => {
+  DataManager.Instance.frame++;
+  FaderManager.Instance.update();
 });
