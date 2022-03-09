@@ -5,7 +5,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../index';
 import { TILE_HEIGHT, TILE_WIDTH } from './GameObjects/Tile';
 import DataManager from '../../Runtime/DataManager';
 import EventManager from '../../Runtime/EventManager';
-import { DIRECTION_ENUM, ENTITY_STATE_ENUM, ENTITY_TYPE_ENUM, EVENT_ENUM } from '../../Enums';
+import { DIRECTION_ENUM, ENTITY_STATE_ENUM, ENTITY_TYPE_ENUM, EVENT_ENUM, SHAKE_TYPE_ENUM } from '../../Enums';
 import Player from './GameObjects/Player';
 import WoodenSkeleton from './GameObjects/WoodenSkeleton';
 import PlayerManager from './GameObjects/Player/Scripts/PlayerManager';
@@ -26,16 +26,65 @@ export default class BattleManager extends Component {
   static componentName = 'BattleManager'; // 设置组件的名字
   level: ILevel;
 
+  shakeType: SHAKE_TYPE_ENUM;
+  oldFrame: number = 0;
+  isShaking = false;
+  oldPos: { x: number; y: number } = { x: 0, y: 0 };
+
   init() {
     DataManager.Instance.levelIndex = 1;
 
     EventManager.Instance.on(EVENT_ENUM.NEXT_LEVEL, this.nextLevel, this);
     EventManager.Instance.on(EVENT_ENUM.PLAYER_MOVE_END, this.checkArrived, this);
     EventManager.Instance.on(EVENT_ENUM.SHOW_SMOKE, this.generateSmoke, this);
+    EventManager.Instance.on(EVENT_ENUM.SCREEN_SHAKE, this.onShake, this);
   }
 
   start() {
     this.initLevel();
+  }
+
+  update() {
+    this.onShakUpdate();
+  }
+
+  onShake(shakeType: SHAKE_TYPE_ENUM) {
+    if (this.isShaking) {
+      return;
+    }
+
+    this.shakeType = shakeType;
+    this.oldFrame = DataManager.Instance.frame;
+    this.isShaking = true;
+    const { x, y } = this.gameObject.transform.position;
+    this.oldPos.x = x;
+    this.oldPos.y = y;
+  }
+
+  onShakUpdate() {
+    if (this.isShaking) {
+      const duration = 200;
+      const curSecond = (DataManager.Instance.frame - this.oldFrame) / 60;
+      const totalSecond = duration / 1000;
+      const amount = 1.6;
+      const frequency = 12;
+      const offset = amount * Math.sin(frequency * Math.PI * curSecond);
+      if (curSecond < totalSecond) {
+        if (this.shakeType === SHAKE_TYPE_ENUM.TOP) {
+          this.gameObject.transform.position.y = this.oldPos.y - offset;
+        } else if (this.shakeType === SHAKE_TYPE_ENUM.BOTTOM) {
+          this.gameObject.transform.position.y = this.oldPos.y + offset;
+        } else if (this.shakeType === SHAKE_TYPE_ENUM.LEFT) {
+          this.gameObject.transform.position.x = this.oldPos.x - offset;
+        } else if (this.shakeType === SHAKE_TYPE_ENUM.RIGHT) {
+          this.gameObject.transform.position.x = this.oldPos.x + offset;
+        }
+      } else {
+        this.isShaking = false;
+        this.gameObject.transform.position.x = this.oldPos.x;
+        this.gameObject.transform.position.y = this.oldPos.y;
+      }
+    }
   }
 
   async initLevel() {
