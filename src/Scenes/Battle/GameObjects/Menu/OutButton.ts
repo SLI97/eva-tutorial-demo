@@ -2,7 +2,6 @@ import { GameObject } from '@eva/eva.js';
 import { Sprite } from '@eva/plugin-renderer-sprite';
 import { Event } from '@eva/plugin-renderer-event';
 import { MENU_BUTTON_HEIGHT, MENU_BUTTON_WIDTH } from './index';
-import FaderManager from '../../../../Runtime/FaderManager';
 import { game } from '../../../../index';
 import Menu from '../../../Menu';
 
@@ -35,7 +34,6 @@ const OutButton = () => {
 
   const event = out.addComponent(new Event());
   const endHandler = async () => {
-    await FaderManager.Instance.fadeIn();
     game.scene.destroy();
     game.loadScene({
       scene: Menu(),

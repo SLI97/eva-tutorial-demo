@@ -12,7 +12,7 @@ import { TextSystem } from '@eva/plugin-renderer-text';
 import { SpriteSystem } from '@eva/plugin-renderer-sprite';
 import FaderManager from './Runtime/FaderManager';
 import DataManager from './Runtime/DataManager';
-import Menu from './Scenes/Menu';
+import StartScene from './Scenes/Start';
 
 resource.addResource(resources);
 
@@ -40,7 +40,7 @@ export const game = new Game({
 });
 
 game.loadScene({
-  scene: Menu(),
+  scene: StartScene(),
 });
 
 game.ticker.add(() => {
